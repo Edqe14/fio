@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "fio"
+version = "0.1.0"
+description = "Fast Image Optimizer"
+authors = ["Edqe14 <34704796+Edqe14@users.noreply.github.com>"]
+license = "MIT"
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = {extras = ["standard"], version = "^0.115.6"}
+pillow = "^11.1.0"
+aiohttp = {extras = ["speedups"], version = "^3.11.11"}
+pillow-avif-plugin = "^1.4.6"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
