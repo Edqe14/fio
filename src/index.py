@@ -62,7 +62,7 @@ async def optimize(
 
         img.verify()  # Verify if it's a valid image
       except UnidentifiedImageError:
-          return {'message': 'Invalid image data'}
+        return {'message': 'Invalid image data'}
       
       # Transform
       if w is not None or h is not None:
