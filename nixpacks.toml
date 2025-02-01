@@ -1,0 +1,2 @@
+[start]
+cmd = 'poetry run fastapi run src/index.py'
