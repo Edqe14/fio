@@ -55,12 +55,13 @@ async def optimize(
       content_disposition = response.headers.get('content-disposition')
       
       # Read image
-      try:
-        img_data = await response.read()
-        img = Image.open(BytesIO(img_data))
-        img.load()
+      img_data = await response.read()
 
+      try:
+        img = Image.open(BytesIO(img_data))
         img.verify()  # Verify if it's a valid image
+        
+        img = Image.open(BytesIO(img_data))
       except UnidentifiedImageError:
         return {'message': 'Invalid image data'}
       
