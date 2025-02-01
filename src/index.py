@@ -8,7 +8,7 @@ from .consts import image_types, format_mime_types, Format, FillMode
 
 # Add avif support
 import pillow_avif
-from PIL import Image
+from PIL import Image, UnidentifiedImageError
 
 cache = FileCache(dir=get_app_specific_directory('fio'))
 app = FastAPI()
@@ -53,18 +53,16 @@ async def optimize(
         return {'message': 'Request failed'}
 
       content_disposition = response.headers.get('content-disposition')
-      content_type = response.headers.get('content-type')
-      
-      # Validation
-      if content_type is None:
-        return {'message': 'Content type not found'}
-      
-      if content_type not in image_types:
-        return {'message': 'Invalid image type'}
       
       # Read image
-      img_data = await response.read()
-      img = Image.open(BytesIO(img_data))
+      try:
+        img_data = await response.read()
+        img = Image.open(BytesIO(img_data))
+        img.load()
+
+        img.verify()  # Verify if it's a valid image
+      except UnidentifiedImageError:
+          return {'message': 'Invalid image data'}
       
       # Transform
       if w is not None or h is not None:
